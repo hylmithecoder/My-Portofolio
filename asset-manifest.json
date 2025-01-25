@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/hylmithecoder/My-Portfolio/static/css/main.d94525c6.css",
-    "main.js": "/hylmithecoder/My-Portfolio/static/js/main.8ce17a5b.js",
-    "static/js/488.4686bfa1.chunk.js": "/hylmithecoder/My-Portfolio/static/js/488.4686bfa1.chunk.js",
-    "static/media/zh-cn.ttf": "/hylmithecoder/My-Portfolio/static/media/zh-cn.68c355351ef0a7779464.ttf",
-    "index.html": "/hylmithecoder/My-Portfolio/index.html",
-    "main.d94525c6.css.map": "/hylmithecoder/My-Portfolio/static/css/main.d94525c6.css.map",
-    "main.8ce17a5b.js.map": "/hylmithecoder/My-Portfolio/static/js/main.8ce17a5b.js.map",
-    "488.4686bfa1.chunk.js.map": "/hylmithecoder/My-Portfolio/static/js/488.4686bfa1.chunk.js.map"
+    "main.css": "/hylmithecoder/My-Portofolio/static/css/main.47a4b971.css",
+    "main.js": "/hylmithecoder/My-Portofolio/static/js/main.0ad6bc2f.js",
+    "static/js/488.4686bfa1.chunk.js": "/hylmithecoder/My-Portofolio/static/js/488.4686bfa1.chunk.js",
+    "static/media/zh-cn.ttf": "/hylmithecoder/My-Portofolio/static/media/zh-cn.68c355351ef0a7779464.ttf",
+    "index.html": "/hylmithecoder/My-Portofolio/index.html",
+    "main.47a4b971.css.map": "/hylmithecoder/My-Portofolio/static/css/main.47a4b971.css.map",
+    "main.0ad6bc2f.js.map": "/hylmithecoder/My-Portofolio/static/js/main.0ad6bc2f.js.map",
+    "488.4686bfa1.chunk.js.map": "/hylmithecoder/My-Portofolio/static/js/488.4686bfa1.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d94525c6.css",
-    "static/js/main.8ce17a5b.js"
+    "static/css/main.47a4b971.css",
+    "static/js/main.0ad6bc2f.js"
   ]
 }
