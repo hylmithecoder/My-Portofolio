@@ -49,5 +49,8 @@
     "gh-pages": "^6.3.0",
     "tailwindcss": "^3.4.17"
   },
-  "homepage": "https://github.com/hylmithecoder/My-Portofolio"
+  "homepage": "https://hylmithecoder.github.io/My-Portofolio",
+  "description": "",
+  "author": "",
+  "license": "ISC"
 }
