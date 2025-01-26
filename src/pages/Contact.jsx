@@ -14,7 +14,7 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    emailjs.send('service_0oaclmm', 'template_123abc', formData, 'user_456xyz')
+    emailjs.send('service_0oaclmm', 'template_yagblvk', formData, 'no-reply-hylmi')
       .then((response) => {
         console.log('SUCCESS!', response.status, response.text);
         setSuccessMessage('Pesan berhasil dikirim!');
