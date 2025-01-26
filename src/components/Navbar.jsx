@@ -41,21 +41,21 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden bg-blue-900 bg-opacity-90 backdrop-blur-md absolute w-full left-0 top-16">
           <div className="flex flex-col items-center space-y-4 py-4">
-            <ScrollLink to="home" smooth={true} duration={500} onClick={toggleMenu} className="cursor-pointer">
+            <a href="/" className="cursor-pointer">
               Home
-            </ScrollLink>
-            <ScrollLink to="about" smooth={true} duration={500} onClick={toggleMenu} className="cursor-pointer">
+            </a>
+            <ScrollLink to="about" smooth={true} duration={500} className="cursor-pointer">
               Tentang Saya
             </ScrollLink>
-            <ScrollLink to="projects" smooth={true} duration={500} onClick={toggleMenu} className="cursor-pointer">
+            <a href='/#MyProjects' className="cursor-pointer">
               Proyek
-            </ScrollLink>
-            <ScrollLink to="blog" smooth={true} duration={500} onClick={toggleMenu} className="cursor-pointer">
+            </a>
+            <ScrollLink to="blog" smooth={true} duration={500} className="cursor-pointer">
               Blog
             </ScrollLink>
-            <ScrollLink to="contact" smooth={true} duration={500} onClick={toggleMenu} className="cursor-pointer">
+            <a href="/contact" className="cursor-pointer">
               Kontak
-            </ScrollLink>
+            </a>
           </div>
         </div>
       )}
