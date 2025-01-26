@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
-import Footer from '../components/Footer';
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -115,7 +114,6 @@ const Contact = () => {
           </form>
         </div>
       </div>
-      <Footer />
     </section>
   );
 };
