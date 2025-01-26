@@ -25,7 +25,7 @@ const Contact = () => {
       .then((response) => {
         console.log('SUCCESS!', response.status, response.text);
         setSuccessMessage('Pesan berhasil dikirim!');
-        setFormData({ name: '', email: '', message: '' });
+        setFormData({ to_name: 'Hylmi', from_name: '', email: '', message: '' });
         btn.value = 'Send Email';
         setIsSubmitting(false);
       }, (error) => {
@@ -58,9 +58,9 @@ const Contact = () => {
                     type="text"
                     name="from_name"
                     id="from_name"
-                    autoComplete="name"
+                    autoComplete="from_name"
                     placeholder="Nama"
-                    value={formData.name}
+                    value={formData.from_name}
                     onChange={handleChange}
                     required
                     className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
