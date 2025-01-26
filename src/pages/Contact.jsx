@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
+import Footer from '../components/Footer';
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -54,10 +55,11 @@ const Contact = () => {
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nama</label>
                 <div className="mt-1">
+                  <input type="hidden" name="to_name" id='to_name' value={"Hylmi"} />
                   <input
                     type="text"
-                    name="name"
-                    id="name"
+                    name="from_name"
+                    id="from_name"
                     autoComplete="name"
                     placeholder="Nama"
                     value={formData.name}
@@ -112,6 +114,7 @@ const Contact = () => {
             </div>
           </form>
         </div>
+        <Footer />
       </div>
     </section>
   );

@@ -9,19 +9,18 @@ const Footer = () => (
         <p className="text-sm">Junior Game Developer</p>
       </div>
       <div className="flex justify-center space-x-4 mb-4">
-        <a href="https://github.com/username" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/hylmithecoder" target="_blank" rel="noopener noreferrer">
           <img src="/images/github-icon.svg" alt="GitHub" className="w-6 h-6" />
         </a>
-        <a href="https://linkedin.com/in/username" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.linkedin.com/in/hylmi-muhammad-fiary-mahdi-b31aab32b/" target="_blank" rel="noopener noreferrer">
           <img src="/images/linkedin-icon.svg" alt="LinkedIn" className="w-6 h-6" />
         </a>
-        <a href="https://twitter.com/username" target="_blank" rel="noopener noreferrer">
+        <a href="https://twitter.com/Sirajameksiko" target="_blank" rel="noopener noreferrer">
           <img src="/images/x-icon.svg" alt="Twitter" className="w-6 h-6" />
         </a>
-        <a href="https://instagram.com/username" target="_blank" rel="noopener noreferrer">
+        <a href="https://instagram.com/sirajameksikooo" target="_blank" rel="noopener noreferrer">
             <img src="/images/ig-icon.svg" alt="Instagram" className="w-6 h-6" />
         </a>
-        {/* <!-- Tambahkan ikon media sosial lainnya --> */}
       </div>
       <p className="text-xs text-gray-400">© 2025 Hylmi Muhammad Fiary Mahdi. All rights reserved.</p>
     </div>

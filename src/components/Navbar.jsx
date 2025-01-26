@@ -16,21 +16,27 @@ const Navbar = () => {
           Hylmi Muhammad Fiary Mahdi
         </div>
         <div className="hidden md:flex space-x-6">
-          <ScrollLink to="home" smooth={true} duration={500} className="cursor-pointer">
+          <a href="/" className="cursor-pointer">
+          <ScrollLink to="/" smooth={true} duration={500} className="cursor-pointer">
             Home
           </ScrollLink>
+          </a>
           <ScrollLink to="about" smooth={true} duration={500} className="cursor-pointer">
             Tentang Saya
           </ScrollLink>
-          <ScrollLink to="projects" smooth={true} duration={500} className="cursor-pointer">
+          <a href='/#MyProjects' className="cursor-pointer">
+          <ScrollLink to="/#MyProjects" smooth={true} duration={500} className="cursor-pointer">
             Proyek
           </ScrollLink>
+          </a>
           <ScrollLink to="blog" smooth={true} duration={500} className="cursor-pointer">
             Blog
           </ScrollLink>
+          <a href="/contact" className="cursor-pointer">
           <ScrollLink to="contact" smooth={true} duration={500} className="cursor-pointer">
             Kontak
           </ScrollLink>
+          </a>
         </div>
         <div className="md:hidden">
           <button onClick={toggleMenu}>
