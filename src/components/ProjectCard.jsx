@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import { motion } from 'framer-motion';
 import { Eye, Github } from 'lucide-react';
 
@@ -35,7 +35,7 @@ const ProjectCard = ({ title, description, technologies, imageUrl, githubLink, d
                 rel="noopener noreferrer"
                 className="bg-gray-800 p-2 rounded-full hover:bg-gray-700"
               >
-            <Github />
+                <Github />
               </a>
             )}
             {demoLink && (
@@ -76,7 +76,6 @@ const Projects = () => {
       githubLink: 'https://github.com/hylmithecoder/genshin-impact',
       demoLink: 'https://yourgamedemo.com'
     },
-    // Add more projects here
     {
       title: 'Desktop App Project',
       description: 'Create A Game Engine using C++ And Library With Qt',
@@ -84,6 +83,14 @@ const Projects = () => {
       imageUrl: 'images/buildqtforgui.png',
       githubLink: 'https://github.com/hylmithecoder',
       demoLink: 'https://yourgamedemo.com'
+    },
+    {
+      title: 'Android App Project',
+      description: 'Android-compatible version of RPG Game Project',
+      technologies: ['Unity', 'Android', 'C#'],
+      imageUrl: 'images/game nya.png',
+      githubLink: 'https://github.com/hylmithecoder/android-rpg',
+      demoLink: 'https://androidgamedemo.com'
     }
   ];
 
