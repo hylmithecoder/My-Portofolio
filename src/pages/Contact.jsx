@@ -51,8 +51,7 @@ const Contact = () => {
         <div className="mt-10">
           <form id="contact-form" onSubmit={handleSubmit} className="space-y-8">
             <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
-              <div>                
-              <input type="hidden" name="to_name" id='to_name' value={"Hylmi"} />
+              <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nama</label>                
                 <div className="mt-1">
                   <input
