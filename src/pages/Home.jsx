@@ -45,6 +45,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 to-indigo-900 text-white relative overflow-hidden">
       <div className="container mx-auto px-4 py-20 relative z-10">
+        <Chatbot />
         <motion.div 
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -138,7 +139,6 @@ const Home = () => {
       >
       <Projects />
       </motion.div>
-      <Chatbot />
       {/* Decorative Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/30 rounded-full blur-3xl animate-pulse"></div>

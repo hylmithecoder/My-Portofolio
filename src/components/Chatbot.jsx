@@ -53,7 +53,7 @@ const Chatbot = () => {
               </div>
             ))}
           </div>
-          <div className="flex mt-4">
+          <div className="flex mt-4 color-black">
             <input
               type="text"
               className="flex-1 border rounded-l-lg p-2"
