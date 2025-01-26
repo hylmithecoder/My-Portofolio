@@ -28,10 +28,10 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 lg:bottom-12 lg:right-12 w-full max-w-xs md:max-w-sm lg:max-w-md">
+    <div className="fixed bottom-4 right-4 w-80">
       {isOpen ? (
         <motion.div
-          className="bg-white rounded-lg shadow-lg p-4 flex flex-col"
+          className="bg-white rounded-lg shadow-lg p-4"
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 100 }}
@@ -42,7 +42,7 @@ const Chatbot = () => {
               <X size={24} />
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto mb-4">
+          <div className="h-64 overflow-y-auto">
             {messages.map((message, index) => (
               <div key={index} className={`mb-2 ${message.sender === "user" ? "text-right" : "text-left"}`}>
                 <div
@@ -53,7 +53,7 @@ const Chatbot = () => {
               </div>
             ))}
           </div>
-          <div className="flex mt-4">
+          <div className="flex mt-4 ">
             <input
               type="text"
               className="flex-1 border rounded-l-lg p-2"
