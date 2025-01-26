@@ -9,7 +9,7 @@ import CustomCursor from "./components/CustomCursor";
 function App() {
   return (      
     <Router>
-      <CustomCursor />
+      {/* <CustomCursor /> */}
         <div>          
         <Navbar />
           <Routes>
