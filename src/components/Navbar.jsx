@@ -22,7 +22,7 @@ const Navbar = () => {
             Home
           </a>
           <ScrollLink to="about" smooth={true} duration={500} className="cursor-pointer">
-            Tentang Saya
+            About Me
           </ScrollLink>
           <a href='/#MyProjects' className="cursor-pointer">
             Proyek
@@ -31,7 +31,7 @@ const Navbar = () => {
             Blog
           </ScrollLink>
           <a href="/contact" className="cursor-pointer">
-            Kontak
+            Contact Me
           </a>
         </div>
         <div className="md:hidden">

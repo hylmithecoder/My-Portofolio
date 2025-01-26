@@ -4,6 +4,7 @@ import { Code, GamepadIcon, BrushIcon, Download } from 'lucide-react';
 import { Link as ScrollLink } from 'react-scroll';
 import Projects from '../components/ProjectCard';
 import Footer from '../components/Footer';
+import Chatbot from '../components/Chatbot';
 
 const Home = () => {
   const [typedText, setTypedText] = useState('');
@@ -137,6 +138,7 @@ const Home = () => {
       >
       <Projects />
       </motion.div>
+      <Chatbot />
       {/* Decorative Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/30 rounded-full blur-3xl animate-pulse"></div>
