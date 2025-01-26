@@ -3,22 +3,92 @@ import { motion } from 'framer-motion';
 import { Eye, Github } from 'lucide-react';
 
 const ProjectCard = ({ title, description, technologies, imageUrl, githubLink, demoLink }) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const [isHover, setIsHovered] = useState(false);
+
+  const handleCardClick = () => {
+    setIsClicked(!isClicked);
+  };
+
+  if (isHover) {
+    return (
+      <div 
+        className="relative overflow-hidden rounded-xl shadow-lg group"
+        onClick={handleCardClick} // Mengganti hover dengan click
+      >
+        <motion.img 
+          src={imageUrl} 
+          alt={title} 
+          className="w-full h-64 object-cover transition-transform duration-300"
+          whileTap={{ scale: 0.95 }} // Animasi kecil saat ditekan
+        />
+
+        {isClicked && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="absolute inset-0 bg-black bg-opacity-70 flex flex-col justify-center items-center text-white p-4"
+          >
+            <h3 className="text-2xl font-bold mb-2">{title}</h3>
+            <p className="text-center mb-4">{description}</p>
+            
+            <div className="flex space-x-4">
+              {githubLink && (
+                <a 
+                  href={githubLink} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-gray-800 p-2 rounded-full hover:bg-gray-700"
+                >
+                  <Github />
+                </a>
+              )}
+              {demoLink && (
+                <a 
+                  href={demoLink} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-green-600 p-2 rounded-full hover:bg-green-500"
+                >
+                  <Eye />
+                </a>
+              )}
+            </div>
+            
+            <div className="mt-4 flex flex-wrap justify-center">
+              {technologies.map((tech, index) => (
+                <span 
+                  key={index} 
+                  className="bg-blue-500 text-xs px-2 py-1 rounded-full m-1"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </div>
+    );
+  }
 
   return (
-    <motion.div 
+    <div 
       className="relative overflow-hidden rounded-xl shadow-lg group"
-      whileHover={{ scale: 1.05 }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
+      onClick={handleCardClick} // Mengganti hover dengan click
     >
-      <img 
+      <motion.div
+        className="relative overflow-hidden rounded-xl shadow-lg group"
+        whileHover={{ scale: 1.05 }}
+        onHoverStart={() => setIsHovered(true)}
+        onHoverEnd={() => setIsHovered(false)}
+      ></motion.div>
+      <motion.img 
         src={imageUrl} 
         alt={title} 
         className="w-full h-64 object-cover transition-transform duration-300"
+        whileTap={{ scale: 0.95 }} // Animasi kecil saat ditekan
       />
-      
-      {isHovered && (
+      {isClicked && (
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -62,9 +132,54 @@ const ProjectCard = ({ title, description, technologies, imageUrl, githubLink, d
           </div>
         </motion.div>
       )}
-    </motion.div>
+
+      {isClicked && (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="absolute inset-0 bg-black bg-opacity-70 flex flex-col justify-center items-center text-white p-4"
+        >
+          <h3 className="text-2xl font-bold mb-2">{title}</h3>
+          <p className="text-center mb-4">{description}</p>
+          
+          <div className="flex space-x-4">
+            {githubLink && (
+              <a 
+                href={githubLink} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-gray-800 p-2 rounded-full hover:bg-gray-700"
+              >
+                <Github />
+              </a>
+            )}
+            {demoLink && (
+              <a 
+                href={demoLink} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-green-600 p-2 rounded-full hover:bg-green-500"
+              >
+                <Eye />
+              </a>
+            )}
+          </div>
+          
+          <div className="mt-4 flex flex-wrap justify-center">
+            {technologies.map((tech, index) => (
+              <span 
+                key={index} 
+                className="bg-blue-500 text-xs px-2 py-1 rounded-full m-1"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+      )}
+    </div>
   );
-};
+} ;
 
 const Projects = () => {
   const projects = [
@@ -88,7 +203,7 @@ const Projects = () => {
       title: 'Android App Project',
       description: 'Android-compatible version of RPG Game Project',
       technologies: ['Unity', 'Android', 'C#'],
-      imageUrl: 'images/game nya.png',
+      imageUrl: 'images/android-rpg.png',
       githubLink: 'https://github.com/hylmithecoder/android-rpg',
       demoLink: 'https://androidgamedemo.com'
     }
