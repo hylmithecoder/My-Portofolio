@@ -82,6 +82,14 @@ const knowledgeBase = [
       "Please don't use offensive language in this chat! 🙅‍♂️"
     ]
   },
+  {
+    patterns: ['school', 'university', 'college', 'education'],
+    responses: [
+      "Hylmi is a vocational school student! 🎓",
+      "Hylmi is currently in vocational school! 🎉",
+      "My creator Hylmi is a vocational school student! 🎓"
+    ]
+  }
 ];
 
 const Chatbot = () => {

@@ -5,10 +5,12 @@ import Navbar from "./components/Navbar";
 import Contact from "./pages/Contact";
 import Projects from "./components/Project";
 import CustomCursor from "./components/CustomCursor";
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   return (      
     <Router>
+      <Analytics/>
       <CustomCursor />
         <div>          
         <Navbar />
