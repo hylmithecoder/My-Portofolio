@@ -131,7 +131,7 @@ const Home = () => {
         <motion.div 
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.8 }}
+          transition={{ delay: 1.2, duration: 0.5 }}
           id="knowledge"
           className="text-center mt-16"
         >
@@ -144,7 +144,7 @@ const Home = () => {
       <motion.div 
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
+        transition={{ delay: 1.2, duration: 0.5 }}
         className="text-center mt-16"
       >
       <Projects />

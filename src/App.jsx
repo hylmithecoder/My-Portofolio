@@ -4,8 +4,9 @@ import { HelmetProvider } from "react-helmet-async";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Contact from "./pages/Contact";
-import Projects from "./components/Project";
+import ProjectDetail from "./pages/ProjectDetails";
 import CustomCursor from "./components/CustomCursor";
+import NotFound from "./pages/NotFound"; // Impor komponen NotFound
 import { Analytics } from "@vercel/analytics/react";
 
 function App() {
@@ -19,7 +20,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/project" element={<Projects />} />
+            <Route path="/project/:projectName" element={<ProjectDetail />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </Router>

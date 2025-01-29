@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'; 
 import { motion } from 'framer-motion';
 import { Eye, Github } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const ProjectCard = ({ title, description, technologies, imageUrl, githubLink, demoLink }) => {
+  const navigate = useNavigate();
   const [isClicked, setIsClicked] = useState(false);
   const [isHover, setIsHovered] = useState(false);
   const [isAndroid, setIsAndroid] = useState(false);
@@ -15,6 +17,8 @@ const ProjectCard = ({ title, description, technologies, imageUrl, githubLink, d
   const handleCardClick = () => {
     if (isAndroid) {
       setIsClicked(!isClicked);
+    } else {
+      navigate(`/project/${encodeURIComponent(title.replace(/\s+/g, '-').toLowerCase())}`);
     }
   };
 
@@ -67,8 +71,7 @@ const ProjectCard = ({ title, description, technologies, imageUrl, githubLink, d
             )}
             {demoLink && (
               <a 
-                href={demoLink} 
-                target="_blank" 
+                href={demoLink}
                 rel="noopener noreferrer"
                 className="bg-green-600 p-2 rounded-full hover:bg-green-500"
               >
@@ -101,23 +104,23 @@ const Projects = () => {
       technologies: ['Unity', 'C#', 'Game Design'],
       imageUrl: 'images/3d.png',
       githubLink: 'https://github.com/hylmithecoder/genshin-impact',
-      demoLink: 'https://yourgamedemo.com'
+      demoLink: '/project/'+encodeURIComponent('RPG Game Project'.replace(/\s+/g, '-').toLowerCase())
     },
     {
       title: 'Desktop App Project',
       description: 'Create A Game Engine using C++ And Library With Qt',
       technologies: ['GameEngine', 'C++', 'Qt', 'GUI'],
-      imageUrl: 'images/buildqtforgui.png',
+      imageUrl: 'images/guiwithqtframework.png',
       githubLink: 'https://github.com/hylmithecoder',
-      demoLink: 'https://yourgamedemo.com'
+      demoLink: '/project/'+encodeURIComponent('Desktop App Project'.replace(/\s+/g, '-').toLowerCase())
     },
     {
-      title: 'Android App Project',
-      description: 'Android-compatible version of RPG Game Project',
+      title: 'Game Testing',
+      description: 'Desktop and Android-compatible version of RPG Game Project',
       technologies: ['Unity', 'Android', 'C#'],
       imageUrl: 'images/game nya.png',
       githubLink: 'https://github.com/hylmithecoder/android-rpg',
-      demoLink: 'https://androidgamedemo.com'
+      demoLink: '/project/'+encodeURIComponent('Game Testing'.replace(/\s+/g, '-').toLowerCase())
     }
   ];
 
