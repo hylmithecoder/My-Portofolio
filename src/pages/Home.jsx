@@ -5,6 +5,7 @@ import { Link as ScrollLink } from 'react-scroll';
 import Projects from '../components/ProjectCard';
 import Footer from '../components/Footer';
 import Chatbot from '../components/Chatbot';
+import { Helmet } from 'react-helmet-async';
 
 const Home = () => {
   const [typedText, setTypedText] = useState('');
@@ -45,6 +46,15 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 to-indigo-900 text-white relative overflow-hidden">
       <div className="container mx-auto px-4 py-20 relative z-10">
+        <Helmet>
+          <title>Hylmi Muhammad Fiary Mahdi</title>
+          <meta name="description" content="Portofolio Hylmi Mahdi- Junior Game Developer" />
+          <meta name="keywords" content="Hylmi Muhammad Fiary Mahdi, Hylmi Mahdi, Hylmi Fiary, Game Developer, Unity, Desktop Application, C#, JavaScript, Java, C++, Portofolio Hylmi, Portofolio Hylmi Muhammad Fiary Mahdi" />
+          <meta property="og:title" content="Ilmeee | Frontend Developer Portfolio" />
+          <meta property="og:description" content="Lihat karya dan proyek dari Hylmi Muhammad Fiary Mahdi, seorang Junior Game Developer berpengalaman dalam Unity." />
+          <meta property="og:image" content="https://ilmeee-portofolio.vercel.app/favicon.ico" />
+          <meta property="og:url" content="https://ilmeee-portofolio.vercel.app/" />
+        </Helmet>
         <Chatbot />
         <motion.div 
           initial={{ opacity: 0, y: -50 }}
