@@ -6,14 +6,16 @@ import Navbar from "./components/Navbar";
 import Contact from "./pages/Contact";
 import ProjectDetail from "./pages/ProjectDetails";
 import CustomCursor from "./components/CustomCursor";
-import NotFound from "./pages/NotFound"; // Impor komponen NotFound
+import NotFound from "./pages/NotFound";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function App() {
   return (
     <HelmetProvider>
       <Router>
         <Analytics />
+        <SpeedInsights />
         <CustomCursor />
         <div>
           <Navbar />
