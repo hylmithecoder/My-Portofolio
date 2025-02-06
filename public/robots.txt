@@ -1,4 +1,4 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Disallow: /gamefolder/
 Sitemap: https://ilmeee-portofolio.vercel.app/sitemap.xml
