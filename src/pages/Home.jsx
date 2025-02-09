@@ -49,8 +49,8 @@ const Home = () => {
         <Helmet>
           <title>Hylmi Muhammad Fiary Mahdi</title>
           <meta name="description" content="Portofolio Hylmi Mahdi- Junior Game Developer" />
-          <meta name="keywords" content="Hylmi Muhammad Fiary Mahdi, Hylmi Mahdi, Hylmi Fiary, Game Developer, Unity, Desktop Application, C#, JavaScript, Java, C++, Portofolio Hylmi, Portofolio Hylmi Muhammad Fiary Mahdi" />
-          <meta property="og:title" content="Ilmeee | Frontend Developer Portfolio" />
+          <meta name="keywords" content="Hylmi, Hylmi Muhammad Fiary Mahdi, Hylmi Mahdi, Hylmi Fiary, Game Developer, Unity, Desktop Application, C#, JavaScript, Java, C++, Portofolio Hylmi, Portofolio Hylmi Muhammad Fiary Mahdi" />
+          <meta property="og:title" content="Ilmeee | Junior Game Developer Portfolio" />
           <meta property="og:description" content="Lihat karya dan proyek dari Hylmi Muhammad Fiary Mahdi, seorang Junior Game Developer berpengalaman dalam Unity." />
           <meta property="og:image" content="https://ilmeee-portofolio.vercel.app/favicon.ico" />
           <meta property="og:url" content="https://ilmeee-portofolio.vercel.app/" />
