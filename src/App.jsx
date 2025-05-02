@@ -9,6 +9,10 @@ import CustomCursor from "./components/CustomCursor";
 import NotFound from "./pages/NotFound";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import Login from "./pages/Login";
+import Admin from "./pages/Admin";
+import Add from "./pages/Add";
+import Edit from "./pages/Edit";
 
 function App() {
   return (
@@ -23,6 +27,10 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/project/:projectName" element={<ProjectDetail />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/add" element={<Add />} />
+            <Route path="/admin/edit/:id" element={<Edit />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
