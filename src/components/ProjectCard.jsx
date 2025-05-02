@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 const BASE_URL = "https://endpoint-myblog-production.up.railway.app";
 const API_URL = `${BASE_URL}/api/posts`;
 
-export const ProjectCard = ({ id, title, description, technologies = [], keyFeatures = [], image, githubUrl }) => {
+export const ProjectCard = ({ id, title, description, date, technologies = [], keyFeatures = [], image, githubUrl }) => {
   const navigate = useNavigate();
   const [isClicked, setIsClicked] = useState(false);
   const [isHover, setIsHovered] = useState(false);
@@ -101,6 +101,9 @@ export const ProjectCard = ({ id, title, description, technologies = [], keyFeat
                 ))}
               </ul>
             )}
+            <div className="text-sm text-gray-400 mt-2">
+              <span className="font-semibold">Date:</span> {new Date(date).toLocaleDateString()}
+            </div>
           </div>
         </motion.div>
       )}
@@ -144,6 +147,7 @@ const Projects = () => {
             key={post.id}
             title={post.title}
             description={post.description}
+            date={post.date}
             technologies={post.technologies}
             keyFeatures={post.keyFeatures}
             image={post.image}
