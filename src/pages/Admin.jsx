@@ -7,16 +7,16 @@ import useAuthRedirect from '../components/check_login';
 import Notifications from '../components/Notifications';
 
 // Dynamically determine API base URL (localhost or LAN IP)
-const getApiBaseUrl = () => {
-  const host = window.location.hostname;
-  if (host === 'localhost' || host === '127.0.0.1') {
-    return 'http://localhost:5000';
-  }
-  // Fallback to LAN IP for testing on mobile
-  return 'https://endpoint-myblog-production.up.railway.app/';
-};
+// const getApiBaseUrl = () => {
+//   const host = window.location.hostname;
+//   // if (host === 'localhost' || host === '127.0.0.1') {
+//   //   return 'https://endpoint-myblog-production.up.railway.app/';
+//   // }
+//   // Fallback to LAN IP for testing on mobile
+//   return 'https://endpoint-myblog-production.up.railway.app/';
+// };
 
-const BASE_URL = getApiBaseUrl();
+const BASE_URL = "https://endpoint-myblog-production.up.railway.app/";
 const URL = `${BASE_URL}/api/posts`;
 
 const Admin = () => {  

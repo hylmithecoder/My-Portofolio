@@ -3,15 +3,15 @@ import { motion } from 'framer-motion';
 import { Eye, Github } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const getApiBaseUrl = () => {
-  const host = window.location.hostname;
-  if (host === 'localhost' || host === '127.0.0.1') {
-    return 'https://endpoint-myblog-production.up.railway.app/';
-  }
-  return 'https://endpoint-myblog-production.up.railway.app/';
-};
+// const getApiBaseUrl = () => {
+//   const host = window.location.hostname;
+//   if (host === 'localhost' || host === '127.0.0.1') {
+//     return 'https://endpoint-myblog-production.up.railway.app/';
+//   }
+//   return 'https://endpoint-myblog-production.up.railway.app/';
+// };
 
-const BASE_URL = getApiBaseUrl();
+const BASE_URL = "https://endpoint-myblog-production.up.railway.app/";
 const API_URL = `${BASE_URL}/api/posts`;
 
 export const ProjectCard = ({ title, description, technologies = [], keyFeatures = [], image, githubUrl }) => {
