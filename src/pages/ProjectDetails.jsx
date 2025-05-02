@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Github, Code } from 'lucide-react';
 
 const ProjectDetail = () => {
+  const { id } = useParams();
   const { projectName } = useParams();
   const [project, setProject] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -11,7 +12,7 @@ const ProjectDetail = () => {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const response = await fetch(`https://endpoint-myblog-production.up.railway.app/api/posts/${projectName}`);
+        const response = await fetch(`https://endpoint-myblog-production.up.railway.app/api/posts/${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch project data.');
         }
