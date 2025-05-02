@@ -8,13 +8,13 @@ import useAuthRedirect from '../components/check_login';
 import Notifications from '../components/Notifications';
 
 // Determine API base URL as in Admin
-const getApiBaseUrl = () => {
-  const host = window.location.hostname;
-  return (host === 'localhost' || host === '127.0.0.1')
-    ? 'http://localhost:5000'
-    : 'https://endpoint-myblog-production.up.railway.app/';
-};
-const BASE_URL = getApiBaseUrl();
+// const getApiBaseUrl = () => {
+//   const host = window.location.hostname;
+//   return (host === 'localhost' || host === '127.0.0.1')
+//     ? 'http://localhost:5000'
+//     : 'https://endpoint-myblog-production.up.railway.app/';
+// };
+const BASE_URL = "https://endpoint-myblog-production.up.railway.app/";
 const API_URL = `${BASE_URL}/api/posts`;
 
 const notificationVariants = {

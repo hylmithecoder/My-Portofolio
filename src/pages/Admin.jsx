@@ -16,7 +16,7 @@ import Notifications from '../components/Notifications';
 //   return 'https://endpoint-myblog-production.up.railway.app/';
 // };
 
-const BASE_URL = "https://endpoint-myblog-production.up.railway.app/";
+const BASE_URL = "https://endpoint-myblog-production.up.railway.app";
 const URL = `${BASE_URL}/api/posts`;
 
 const Admin = () => {  

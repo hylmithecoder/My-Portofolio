@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 //   return 'https://endpoint-myblog-production.up.railway.app/';
 // };
 
-const BASE_URL = "https://endpoint-myblog-production.up.railway.app/";
+const BASE_URL = "https://endpoint-myblog-production.up.railway.app";
 const API_URL = `${BASE_URL}/api/posts`;
 
 export const ProjectCard = ({ title, description, technologies = [], keyFeatures = [], image, githubUrl }) => {
