@@ -14,7 +14,7 @@ import Notifications from '../components/Notifications';
 //     ? 'http://localhost:5000'
 //     : 'https://endpoint-myblog-production.up.railway.app/';
 // };
-const BASE_URL = "https://endpoint-myblog-production.up.railway.app/";
+const BASE_URL = "https://endpoint-myblog-production.up.railway.app";
 const API_URL = `${BASE_URL}/api/posts`;
 
 const notificationVariants = {

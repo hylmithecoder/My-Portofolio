@@ -104,9 +104,14 @@ const Admin = () => {
             Kelola postingan blog dan perbarui konten sesuai kebutuhan.
           </p>
         </motion.div>
-
-        <Notifications notification={notification} setNotification={setNotification} />
-
+        
+          <Notifications notification={notification} setNotification={setNotification} />
+        
+        <motion.div 
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
         <motion.button
           onClick={() => window.location.href = '/admin/add'}
           whileHover={{ scale: 1.05 }}
@@ -115,6 +120,7 @@ const Admin = () => {
         >
           Buat Postingan Baru
         </motion.button>
+        </motion.div>
         <div className="flex flex-col gap-8 mt-6">
           {posts.map((post, index) => (
             <motion.div
