@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 const BASE_URL = "https://endpoint-myblog-production.up.railway.app";
 const API_URL = `${BASE_URL}/api/posts`;
 
-export const ProjectCard = ({ title, description, technologies = [], keyFeatures = [], image, githubUrl }) => {
+export const ProjectCard = ({ id, title, description, technologies = [], keyFeatures = [], image, githubUrl }) => {
   const navigate = useNavigate();
   const [isClicked, setIsClicked] = useState(false);
   const [isHover, setIsHovered] = useState(false);
@@ -26,7 +26,7 @@ export const ProjectCard = ({ title, description, technologies = [], keyFeatures
   }, []);
 
   const slug = encodeURIComponent(title.replace(/\s+/g, '-').toLowerCase());
-  const demoLink = `/project/${slug}`;
+  const demoLink = `/project/${id}/${slug}`;
   const imageUrl = image.startsWith('http')
     ? image
     : `${BASE_URL}${image}`;
@@ -140,6 +140,7 @@ const Projects = () => {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.map(post => (
           <ProjectCard
+            id={post.id}
             key={post.id}
             title={post.title}
             description={post.description}

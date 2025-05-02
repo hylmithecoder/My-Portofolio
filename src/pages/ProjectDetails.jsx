@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import { Github, Code } from 'lucide-react';
 
 const ProjectDetail = () => {
-  const { id } = useParams();
-  const { projectName } = useParams();
+  // Mendapatkan id dan projectName dari URL. Misalnya URL: /project/2/unity-engine
+  const { id, projectName } = useParams();
   const [project, setProject] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -16,18 +16,17 @@ const ProjectDetail = () => {
         if (!response.ok) {
           throw new Error('Failed to fetch project data.');
         }
+        // Karena endpoint mengembalikan data proyek tunggal,
+        // kita tidak perlu lagi melakukan pencarian (find) pada data.
         const data = await response.json();
         
-        // Mencari proyek berdasarkan nama dari parameter URL
-        const foundProject = data.find(
-          (p) => p.title.toLowerCase().replace(/\s+/g, '-') === projectName
-        );
-
-        if (!foundProject) {
-          throw new Error('Project not found.');
+        // Opsional: Jika parameter "projectName" ada, verifikasi apakah judul pada data cocok dengan parameter tersebut.
+        if (projectName && data.title.toLowerCase().replace(/\s+/g, '-') !== projectName) {
+          console.warn("Project title from URL doesn't match project data.");
+          // Anda bisa memilih untuk mengatur error di sini bila perlu.
         }
-
-        setProject(foundProject);
+        
+        setProject(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -36,7 +35,7 @@ const ProjectDetail = () => {
     };
 
     fetchProject();
-  }, [projectName]);
+  }, [id, projectName]);
 
   if (isLoading) {
     return (
@@ -46,10 +45,10 @@ const ProjectDetail = () => {
     );
   }
 
-  if (error) {
+  if (error || !project) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-900">
-        <p className="text-red-500 text-xl">{error}</p>
+        <p className="text-red-500 text-xl">{error || 'Project not found.'}</p>
       </div>
     );
   }
