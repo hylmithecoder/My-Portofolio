@@ -44,7 +44,7 @@ const Login = () => {
     setLoading(true);
     try {
       // Ambil hash password tersimpan dari API berdasarkan username/email
-        const res = await fetch(`http://192.168.126.126:5000/api/240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9/${username}`);
+        const res = await fetch(`https://endpoint-myblog-production.up.railway.app/api/240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9/${username}`);
         // console.log('Response:', res);
         if (!res.ok) throw new Error('Gagal mengambil data user');
         const user = await res.json();
