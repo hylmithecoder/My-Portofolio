@@ -11,7 +11,7 @@ const ProjectDetail = () => {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const response = await fetch(`https://endpoint-myblog-production.up.railway.app/`);
+        const response = await fetch(`https://endpoint-myblog-production.up.railway.app/api/posts/${projectName}`);
         if (!response.ok) {
           throw new Error('Failed to fetch project data.');
         }
