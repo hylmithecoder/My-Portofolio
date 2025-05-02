@@ -176,17 +176,6 @@ const Add = () => {
             />
           </div>
 
-          <div className="mb-6">
-            <label htmlFor="image" className="block text-lg font-bold mb-2">Image</label>
-            <input
-              type="file"
-              id="image"
-              onChange={(e) => setImage(e.target.files[0])}
-              className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none"
-              required
-            />
-          </div>
-
           <div className='mb-6'>
             <label htmlFor="githubUrl" className='block text-lg font-bold mb-2'>Github URL</label>
             <input
@@ -221,6 +210,17 @@ const Add = () => {
               onChange={(e) => setKeyFeatures(e.target.value.split(',').map((feature) => feature.trim()))}
               placeholder="Masukkan fitur utama (pisahkan dengan koma)"
               className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none"
+            />
+          </div>
+
+          <div className="mb-6">
+            <label htmlFor="image" className="block text-lg font-bold mb-2">Image</label>
+            <input
+              type="file"
+              id="image"
+              onChange={(e) => setImage(e.target.files[0])}
+              className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none"
+              required
             />
           </div>
 
