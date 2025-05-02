@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const getApiBaseUrl = () => {
   const host = window.location.hostname;
   if (host === 'localhost' || host === '127.0.0.1') {
-    return 'http://localhost:5000';
+    return 'https://endpoint-myblog-production.up.railway.app/';
   }
   return 'https://endpoint-myblog-production.up.railway.app/';
 };
