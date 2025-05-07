@@ -67,7 +67,8 @@ const ProjectDetail = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-8">
               <h1 className="text-4xl font-bold text-white mb-4">{project.title}</h1>
-              <p className="text-xl text-gray-300">{project.description}</p>
+              <p className="text-xl text-gray-300">{project.description} <span className='text-xl text-gray-300 float-right'>Date: {project.date}</span></p>
+              
             </div>
           </div>
         </div>
