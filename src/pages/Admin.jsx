@@ -16,7 +16,7 @@ import Notifications from '../components/Notifications';
 //   return 'https://endpoint-myblog-production.up.railway.app/';
 // };
 
-const BASE_URL = "https://endpoint-myblog-production.up.railway.app";
+const BASE_URL = "https://ilmeee.com/get_project/index.php";
 const URL = `${BASE_URL}/api/posts`;
 
 const Admin = () => {  
@@ -37,7 +37,7 @@ const Admin = () => {
     }, [notification]);
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`${URL}/${id}`, { method: 'DELETE' });
+      const response = await fetch(`${BASE_URL}?id=${id}`, { method: 'DELETE' });
       if (!response.ok) throw new Error('Gagal menghapus postingan.');
       setPosts(posts.filter(post => post.id !== id));
       setNotification({ message: 'Postingan berhasil dihapus!', type: 'success' });
@@ -50,10 +50,10 @@ const Admin = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(URL);
+        const response = await fetch(BASE_URL);
         if (!response.ok) throw new Error('Gagal memuat data.');
         const data = await response.json();
-        setPosts(data);
+        setPosts(data.data);
       } catch (err) {
         console.error('Fetch error:', err);
         setError(err.toString());
@@ -132,7 +132,7 @@ const Admin = () => {
             >
               <div className="flex flex-col md:flex-row">
                 <img
-                  src={post.image.startsWith('http') ? post.image : `${BASE_URL}${post.image}`}
+                  src={post.imageUrl.startsWith('http') ? post.imageUrl : `https://ilmeee.com/get_project/${post.imageUrl}`}
                   alt={post.title}
                   className="w-full md:w-2/5 object-cover rounded-xl mb-4 md:mb-0 md:mr-4"
                 />
@@ -148,7 +148,7 @@ const Admin = () => {
                     </div>
                     <div className="flex space-x-2 mt-4 md:mt-0">
                       <motion.button
-                        onClick={() => window.location.href = `/admin/edit/${post.id}`}
+                        onClick={() => window.location.href = `/admin/edit/${post.ID}`}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className="bg-green-500 text-white py-2 px-4 rounded-full font-bold"
@@ -156,7 +156,7 @@ const Admin = () => {
                         Edit
                       </motion.button>
                       <motion.button
-                        onClick={() => handleDelete(post.id)}
+                        onClick={() => handleDelete(post.ID)}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className="bg-red-500 text-white py-2 px-4 rounded-full font-bold"

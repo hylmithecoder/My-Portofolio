@@ -24,6 +24,34 @@ const Add = () => {
     const [keyFeatures, setKeyFeatures] = useState([]);
     const [loading, setLoading] = useState(false);
     const [notification, setNotification] = useState({ message: '', type: '' });
+    const [form, setForm] = useState({
+      title: '', description: '', content: '', author: '', date: '',
+      imageFile: null, githubUrl: '', technologies: [], keyFeatures: []
+    });
+    const [imagePreview, setImagePreview] = useState(null);
+
+    const handleImageChange = (e) => {
+      const file = e.target.files[0];
+      setForm(prev => ({ ...prev, imageFile: file }));
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => setImagePreview(reader.result);
+        reader.readAsDataURL(file);
+      } else {
+        setImagePreview(null);
+      }
+    };
+
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setForm(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleCommaListChange = (e, key) => {
+      const list = e.target.value.split(',').map(s => s.trim());
+      setForm(prev => ({ ...prev, [key]: list }));
+    };
+
 
   // Auto-dismiss notification after 3 seconds
   useEffect(() => {
@@ -35,50 +63,50 @@ const Add = () => {
     }
   }, [notification]);
 
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setNotification({ message: '', type: '' });
-
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('description', description);
-    formData.append('content', content);
-    formData.append('author', author);
-    formData.append('date', date);
-    if (image) formData.append('image', image);
-    formData.append('githubUrl', githubUrl);
-    formData.append('technologies', JSON.stringify(technologies));
-    formData.append('keyFeatures', JSON.stringify(keyFeatures));
 
     try {
-      const response = await fetch('https://endpoint-myblog-production.up.railway.app/api/posts', {
+      let base64Image = '';
+      if (form.imageFile) {
+        const reader = await convertToBase64(form.imageFile);
+        base64Image = reader;
+      }
+
+      const payload = {
+        ...form,
+        image: base64Image,
+        technologies: form.technologies.join(','),
+        keyFeatures: form.keyFeatures.join(',')
+      };
+
+      const res = await fetch('https://ilmeee.com/get_project/index.php', {
         method: 'POST',
-        body: formData
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
       });
 
-      if (!response.ok) throw new Error('Gagal membuat postingan.');
-      const data = await response.json();
-      console.log('Post created:', data);
-      setTimeout(() => navigate('/admin'), 1000);
+      if (!res.ok) throw new Error('Gagal membuat postingan.');
+
       setNotification({ message: 'Post berhasil dibuat!', type: 'success' });
-      // Reset form
-      setTitle('');
-      setDescription('');
-      setContent('');
-      setAuthor('');
-      setDate('');
-      setImage(null);
-      setGithubUrl('');
-      setTechnologies([]);
-      setKeyFeatures([]);
+      setTimeout(() => navigate('/admin'), 1000);
     } catch (err) {
       console.error(err);
-      setNotification({ message: err.message || 'Terjadi kesalahan!', type: 'error' });
+      setNotification({ message: err.message, type: 'error' });
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br mt-8 from-blue-900 to-indigo-900 text-white relative overflow-hidden">
@@ -118,8 +146,8 @@ const Add = () => {
             <input
               type="text"
               id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              // value={form.title}
+              onChange={handleInputChange}
               placeholder="Masukkan judul postingan"
               className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none"
               required
@@ -131,8 +159,7 @@ const Add = () => {
             <input
               type="text"
               id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={handleInputChange}
               placeholder="Masukkan deskripsi singkat postingan"
               className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none"
               required
@@ -143,8 +170,7 @@ const Add = () => {
             <label htmlFor="content" className="block text-lg font-bold mb-2">Content</label>
             <textarea
               id="content"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
+              onChange={handleInputChange}
               placeholder="Masukkan isi postingan"
               className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none min-h-[120px]"
               required
@@ -156,8 +182,7 @@ const Add = () => {
             <input
               type="text"
               id="author"
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
+              onChange={handleInputChange}
               placeholder="Masukkan nama penulis"
               className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none"
               required
@@ -169,8 +194,7 @@ const Add = () => {
             <input
               type="date"
               id="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
+              onChange={handleInputChange}
               className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none"
               required
             />
@@ -181,8 +205,7 @@ const Add = () => {
             <input
               type="text"
               id="githubUrl"
-              value={githubUrl}
-              onChange={(e) => setGithubUrl(e.target.value)}
+              onChange={handleInputChange}
               placeholder="Masukkan URL Github"
               className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none"
               required
@@ -194,8 +217,7 @@ const Add = () => {
             <input
               type="text"
               id="technologies"
-              value={technologies.join(', ')}
-              onChange={(e) => setTechnologies(e.target.value.split(',').map((tech) => tech.trim()))}
+              onChange={handleCommaListChange}
               placeholder="Masukkan teknologi yang digunakan (pisahkan dengan koma)"
               className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none"
             />
@@ -206,8 +228,7 @@ const Add = () => {
             <input
               type="text"
               id="keyFeatures"
-              value={keyFeatures.join(', ')}
-              onChange={(e) => setKeyFeatures(e.target.value.split(',').map((feature) => feature.trim()))}
+              onChange={handleCommaListChange}
               placeholder="Masukkan fitur utama (pisahkan dengan koma)"
               className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none"
             />
@@ -218,10 +239,17 @@ const Add = () => {
             <input
               type="file"
               id="image"
-              onChange={(e) => setImage(e.target.files[0])}
-              className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none"
+              // value={form.imageFile}
+              onChange={handleImageChange}
+              className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none focus:border-white/40 text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/20 file:text-white hover:file:bg-white/30" 
               required
             />
+            {imagePreview && (
+              <div className="mb-6">
+                <label className="block text-lg font-bold mb-2">Image Preview</label>
+                <img src={imagePreview} alt="Preview" className="w-full rounded-md border border-white/20" />
+              </div>
+            )}
           </div>
 
           <motion.button 

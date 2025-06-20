@@ -7,58 +7,52 @@ import Chatbot from '../components/Chatbot';
 import useAuthRedirect from '../components/check_login';
 import Notifications from '../components/Notifications';
 
-// Determine API base URL as in Admin
-// const getApiBaseUrl = () => {
-//   const host = window.location.hostname;
-//   return (host === 'localhost' || host === '127.0.0.1')
-//     ? 'http://localhost:5000'
-//     : 'https://endpoint-myblog-production.up.railway.app/';
-// };
-const BASE_URL = "https://endpoint-myblog-production.up.railway.app";
-const API_URL = `${BASE_URL}/api/posts`;
-
-const notificationVariants = {
-  hidden: { opacity: 0, y: -20 },
-  visible: { opacity: 1, y: 0 }
-};
+const BASE_URL = "https://ilmeee.com/get_project/index.php";
 
 const Edit = () => {
-    useAuthRedirect(); // Redirect if not logged in
+  useAuthRedirect(); // Redirect if not logged in
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    title: '', description: '', content: '', author: '', date: '', imageFile: null, currentImageUrl: '', githubUrl: '', technologies: [], keyFeatures: []
+    title: '', 
+    description: '', 
+    content: '', 
+    author: '', 
+    date: '', 
+    imageFile: null, 
+    currentImageUrl: '', 
+    githubUrl: '', 
+    technologies: [], 
+    keyFeatures: []
   });
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [notification, setNotification] = useState({ message: '', type: '' });
-  console.log(notification+'\n'+notification.message+'\n'+notification.type+"\n"+setNotification);
-  console.log(notificationVariants);
 
   useEffect(() => {
     // Fetch existing post
     const fetchPost = async () => {
       try {
-        const res = await fetch(`${API_URL}/${id}`);
+        const res = await fetch(`${BASE_URL}?id=${id}`);
         if (!res.ok) throw new Error('Gagal memuat data');
         const data = await res.json();
-        // Use raw data.image (direct path or full URL)
+        
         setForm(prev => ({
           ...prev,
-          title: data.title,
-          description: data.description,
-          content: data.content,
-          author: data.author,
-          date: data.date,
+          title: data.data.title || '',
+          description: data.data.description || '',
+          content: data.data.content || '',
+          author: data.data.author || '',
+          date: data.data.date || '',
           imageFile: null,
-          currentImageUrl: data.image,
-          githubUrl: data.githubUrl,
-          technologies: data.technologies,
-          keyFeatures: data.keyFeatures
+          currentImageUrl: data.data.imageUrl || '',
+          githubUrl: data.data.githubUrl || '',
+          technologies: data.data.technologies ? data.data.technologies.split(',').map(t => t.trim()) : [],
+          keyFeatures: data.data.keyFeatures ? data.data.keyFeatures.split(',').map(k => k.trim()) : []
         }));
       } catch (err) {
-        console.error(err);
+        console.error('Fetch error:', err);
         setNotification({ message: err.message, type: 'error' });
       } finally {
         setLoading(false);
@@ -84,38 +78,106 @@ const Edit = () => {
     }
   };
 
+  // Convert file to base64
+  const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    const fd = new FormData();
-    fd.append('title', form.title);
-    fd.append('description', form.description);
-    fd.append('content', form.content);
-    fd.append('author', form.author);
-    fd.append('date', form.date);
-    fd.append('githubUrl', form.githubUrl);
-    fd.append('technologies', JSON.stringify(form.technologies));
-    fd.append('keyFeatures', JSON.stringify(form.keyFeatures));
-    
-    if (form.imageFile) fd.append('image', form.imageFile);
 
     try {
-      const res = await fetch(`${API_URL}/${id}`, {
-        method: 'PUT', body: fd
+      // Prepare data object (not FormData for JSON API)
+      const updateData = {
+        title: form.title,
+        description: form.description,
+        content: form.content,
+        author: form.author,
+        date: form.date,
+        githubUrl: form.githubUrl,
+        technologies: form.technologies.join(','),
+        keyFeatures: form.keyFeatures.join(','),
+        imageUrl: form.currentImageUrl // Keep current image URL
+      };
+
+      // Handle new image if uploaded
+      if (form.imageFile) {
+        try {
+          const base64Image = await fileToBase64(form.imageFile);
+          updateData.image = base64Image;
+        } catch (imageError) {
+          console.error('Error converting image:', imageError);
+          setNotification({ message: 'Error processing image', type: 'error' });
+          setSubmitting(false);
+          return;
+        }
+      }
+
+
+      const res = await fetch(`${BASE_URL}?id=${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(updateData)
       });
-      if (!res.ok) throw new Error('Gagal memperbarui postingan');
+
+
+      // Check if response is ok
+      if (!res.ok) {
+        // Try to get error message from response
+        let errorMessage = 'Gagal memperbarui postingan';
+        try {
+          const errorData = await res.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch (parseError) {
+          console.error('Error parsing error response:', parseError);
+          errorMessage = `Server error: ${res.status} ${res.statusText}`;
+        }
+        throw new Error(errorMessage);
+      }
+
+      const responseData = await res.json();
+
+      if (responseData.status !== 'success') {
+        throw new Error(responseData.message || 'Gagal memperbarui postingan');
+      }
+
       setNotification({ message: 'Post berhasil diperbarui!', type: 'success' });
-      setTimeout(() => navigate('/admin'), 1000);
+      setTimeout(() => navigate('/admin'), 1500);
     } catch (err) {
-      console.error(err);
-      setNotification({ message: err.message, type: 'error' });
+      console.error('Submit error:', err);
+      
+      // Handle different types of errors
+      let errorMessage = 'Terjadi kesalahan';
+      if (err.name === 'TypeError' && err.message.includes('fetch')) {
+        errorMessage = 'Koneksi gagal. Periksa koneksi internet Anda.';
+      } else if (err.message.includes('CORS')) {
+        errorMessage = 'Error CORS. Hubungi administrator.';
+      } else {
+        errorMessage = err.message || 'Terjadi kesalahan';
+      }
+      
+      setNotification({ message: errorMessage, type: 'error' });
     } finally {
       setSubmitting(false);
     }
   };
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center text-white">Loading...</div>
+    <div className="min-h-screen flex items-center justify-center text-white bg-gradient-to-br from-blue-900 to-indigo-900">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+        <p>Loading...</p>
+      </div>
+    </div>
   );
 
   return (
@@ -124,92 +186,167 @@ const Edit = () => {
         <title>Edit Post - Hylmi Muhammad Fiary Mahdi</title>
       </Helmet>
       <Chatbot />
+      
       <div className="container mx-auto px-4 py-20 relative z-10">
-        <motion.div initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-center mb-12">
+        <motion.div 
+          initial={{ opacity: 0, y: -50 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.8 }} 
+          className="text-center mb-12"
+        >
           <h1 className="text-5xl font-bold">Edit Post</h1>
         </motion.div>
 
-        {/* <AnimatePresence>
-          {notification.message && (
-            <motion.div variants={notificationVariants} initial="hidden" animate="visible" exit="hidden" transition={{ duration: 0.5 }} className={`fixed top-20 left-1/2 transform -translate-x-1/2 px-6 py-4 rounded-full text-black font-semibold z-50 ${notification.type === 'success' ? 'bg-green-400' : 'bg-red-400'}`}>
-              {notification.message}
-            </motion.div>
-          )}
-        </AnimatePresence> */}       
-      <Notifications notification={notification} setNotification={setNotification} />
-        <motion.form onSubmit={handleSubmit} initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl mx-auto bg-white/10 backdrop-blur-md p-8 rounded-xl border border-white/20">
-        {['title', 'description', 'content', 'author', 'date', 'githubUrl', 'technologies', 'keyFeatures'].map((field) => (
-        <div key={field} className="mb-6">
-          <label htmlFor={field} className="block text-lg font-bold mb-2 capitalize">{field}</label>
+        <Notifications notification={notification} setNotification={setNotification} />
+        
+        <motion.form 
+          onSubmit={handleSubmit} 
+          initial={{ opacity: 0, y: 50 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.8 }} 
+          className="max-w-3xl mx-auto bg-white/10 backdrop-blur-md p-8 rounded-xl border border-white/20"
+        >
+          {/* Basic Fields */}
+          {['title', 'description', 'content', 'author', 'date', 'githubUrl'].map((field) => (
+            <div key={field} className="mb-6">
+              <label htmlFor={field} className="block text-lg font-bold mb-2 capitalize">
+                {field === 'githubUrl' ? 'GitHub URL' : field}
+              </label>
 
-          {field === 'content' ? (
-            <textarea
-              id={field}
-              name={field}
-              value={form[field]}
-              onChange={handleChange}
-              className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none min-h-[120px]"
-              required
-            />
-          ) : (field === 'technologies' || field === 'keyFeatures') ? (
+              {field === 'content' ? (
+                <textarea
+                  id={field}
+                  name={field}
+                  value={form[field]}
+                  onChange={handleChange}
+                  className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none focus:border-white/40 min-h-[120px] text-white placeholder-white/60"
+                  required
+                  placeholder={`Enter ${field}...`}
+                />
+              ) : (
+                <input
+                  type={field === 'date' ? 'date' : 'text'}
+                  id={field}
+                  name={field}
+                  value={form[field]}
+                  onChange={handleChange}
+                  className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none focus:border-white/40 text-white placeholder-white/60"
+                  required
+                  placeholder={`Enter ${field}...`}
+                />
+              )}
+            </div>
+          ))}
+
+          {/* Technologies Field */}
+          <div className="mb-6">
+            <label htmlFor="technologies" className="block text-lg font-bold mb-2">Technologies</label>
             <input
               type="text"
-              id={field}
-              name={field}
-              value={form[field].join(', ')}
+              id="technologies"
+              name="technologies"
+              value={form.technologies.join(', ')}
               onChange={(e) =>
                 setForm((prev) => ({
                   ...prev,
-                  [field]: e.target.value
+                  technologies: e.target.value
                     .split(',')
                     .map(item => item.trim())
-                    // .filter(item => item)
+                    .filter(item => item !== '') // Remove empty items
                 }))
               }
-              placeholder='Masukkan teknologi yang digunakan (pisahkan dengan koma)'
-              className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none"
+              placeholder="Enter technologies used (separate with commas)"
+              className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none focus:border-white/40 text-white placeholder-white/60"
             />
-          ) : (
+          </div>
+
+          {/* Key Features Field */}
+          <div className="mb-6">
+            <label htmlFor="keyFeatures" className="block text-lg font-bold mb-2">Key Features</label>
             <input
-              type={field === 'date' ? 'date' : 'text'}
-              id={field}
-              name={field}
-              value={form[field]}
-              onChange={handleChange}
-              className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none"
-              required
+              type="text"
+              id="keyFeatures"
+              name="keyFeatures"
+              value={form.keyFeatures.join(', ')}
+              onChange={(e) =>
+                setForm((prev) => ({
+                  ...prev,
+                  keyFeatures: e.target.value
+                    .split(',')
+                    .map(item => item.trim())
+                    .filter(item => item !== '') // Remove empty items
+                }))
+              }
+              placeholder="Enter key features (separate with commas)"
+              className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none focus:border-white/40 text-white placeholder-white/60"
             />
-          )}
-        </div>
-      ))}
+          </div>
 
           {/* Current Image Preview */}
           {form.currentImageUrl && (
             <div className="mb-6">
               <label className="block text-lg font-bold mb-2">Current Image</label>
-              <img
-                src={form.currentImageUrl.startsWith('http') ? form.currentImageUrl : `${BASE_URL}${form.currentImageUrl}`}
-                alt="Current"
-                className="w-full h-auto rounded-md border border-white/20"
-              />
+              <div className="relative">
+                <img
+                  src={form.currentImageUrl.startsWith('http') 
+                    ? form.currentImageUrl 
+                    : `https://ilmeee.com/get_project/${form.currentImageUrl}`
+                  }
+                  alt="Current"
+                  className="w-full h-auto max-h-64 object-cover rounded-md border border-white/20"
+                  onError={(e) => {
+                    console.error('Image load error:', e);
+                    e.target.style.display = 'none';
+                  }}
+                />
+              </div>
             </div>
           )}
 
+          {/* New Image Upload */}
           <div className="mb-6">
-            <label htmlFor="image" className="block text-lg font-bold mb-2">New Image</label>
-            <input type="file" id="image" name="image" onChange={handleChange} className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none" />
+            <label htmlFor="image" className="block text-lg font-bold mb-2">
+              {form.currentImageUrl ? 'Replace Image (Optional)' : 'Upload Image'}
+            </label>
+            <input 
+              type="file" 
+              id="image" 
+              name="image" 
+              onChange={handleChange} 
+              accept="image/*"
+              className="w-full bg-transparent border border-white/20 rounded-md py-3 px-4 focus:outline-none focus:border-white/40 text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/20 file:text-white hover:file:bg-white/30" 
+            />
+            {form.imageFile && (
+              <p className="mt-2 text-sm text-white/70">Selected: {form.imageFile.name}</p>
+            )}
           </div>
 
-          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} disabled={submitting} type="submit" className="w-full bg-yellow-400 text-black py-3 rounded-full font-bold hover:bg-yellow-500 transition-all">
-            {submitting ? 'Updating...' : 'Update Post'}
+          {/* Submit Button */}
+          <motion.button 
+            whileHover={{ scale: 1.05 }} 
+            whileTap={{ scale: 0.95 }} 
+            disabled={submitting} 
+            type="submit" 
+            className="w-full bg-yellow-400 text-black py-3 rounded-full font-bold hover:bg-yellow-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {submitting ? (
+              <span className="flex items-center justify-center">
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black mr-2"></div>
+                Updating...
+              </span>
+            ) : (
+              'Update Post'
+            )}
           </motion.button>
         </motion.form>
       </div>
-      {/* Background */}
+
+      {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/30 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-indigo-600/30 rounded-full blur-3xl animate-pulse"></div>
       </div>
+      
       <Footer />
     </div>
   );

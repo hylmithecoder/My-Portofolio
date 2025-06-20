@@ -12,7 +12,7 @@ const ProjectDetail = () => {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const response = await fetch(`https://endpoint-myblog-production.up.railway.app/api/posts/${id}`);
+        const response = await fetch(`https://ilmeee.com/get_project/index.php?id=${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch project data.');
         }
@@ -21,12 +21,12 @@ const ProjectDetail = () => {
         const data = await response.json();
         
         // Opsional: Jika parameter "projectName" ada, verifikasi apakah judul pada data cocok dengan parameter tersebut.
-        if (projectName && data.title.toLowerCase().replace(/\s+/g, '-') !== projectName) {
+        if (projectName && data.data.title.toLowerCase().replace(/\s+/g, '-') !== projectName) {
           console.warn("Project title from URL doesn't match project data.");
           // Anda bisa memilih untuk mengatur error di sini bila perlu.
         }
-        
-        setProject(data);
+        console.log(data.data);
+        setProject(data.data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -60,7 +60,7 @@ const ProjectDetail = () => {
         <div className="bg-gray-800 rounded-lg shadow-2xl overflow-hidden mb-8">
           <div className="relative">
             <img
-              src={project.image}
+              src={"https://ilmeee.com/get_project/"+project.imageUrl}
               alt={project.title}
               className="w-full h-96 object-cover transition-transform duration-300 hover:scale-105"
             />
@@ -85,7 +85,7 @@ const ProjectDetail = () => {
             <div className="bg-gray-800 rounded-lg p-6">
               <h2 className="text-2xl font-bold text-white mb-4">Key Features</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {project.keyFeatures.map((feature, index) => (
+                {project.keyFeatures.split(',').length > 0 && project.keyFeatures.split(',').map((feature, index) => (
                   <div key={index} className="flex items-center space-x-2 text-gray-300">
                     <Code size={20} className="text-blue-400" />
                     <span>{feature}</span>
@@ -101,9 +101,9 @@ const ProjectDetail = () => {
             <div className="bg-gray-800 rounded-lg p-6">
               <h2 className="text-2xl font-bold text-white mb-4">Technologies</h2>
               <div className="flex flex-wrap gap-2">
-                {project.technologies.map((tech, index) => (
+                {project.technologies.split(',').map((tech, i) => (
                   <span
-                    key={index}
+                    key={i}
                     className="px-4 py-2 bg-blue-500 text-white rounded-full text-sm font-medium transition-transform hover:scale-105"
                   >
                     {tech}

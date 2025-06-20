@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 //   return 'https://endpoint-myblog-production.up.railway.app/';
 // };
 
-const BASE_URL = "https://endpoint-myblog-production.up.railway.app";
+const BASE_URL = "https://ilmeee.com/get_project/index.php";
 const API_URL = `${BASE_URL}/api/posts`;
 
 export const ProjectCard = ({ id, title, description, date, technologies = [], keyFeatures = [], image, githubUrl }) => {
@@ -29,7 +29,7 @@ export const ProjectCard = ({ id, title, description, date, technologies = [], k
   const demoLink = `/project/${id}/${slug}`;
   const imageUrl = image.startsWith('http')
     ? image
-    : `${BASE_URL}${image}`;
+    : `https://ilmeee.com/get_project/${image}`;
 
   const handleCardClick = () => {
     if (isAndroid) {
@@ -83,7 +83,7 @@ export const ProjectCard = ({ id, title, description, date, technologies = [], k
             </a>
           </div>
           
-          <div className="w-full">
+          {/* <div className="w-full">
             <div className="flex flex-wrap justify-center mb-2">
               {technologies.map((tech, i) => (
                 <span 
@@ -98,6 +98,24 @@ export const ProjectCard = ({ id, title, description, date, technologies = [], k
               <ul className="list-disc list-inside text-sm">
                 {keyFeatures.map((feat, i) => (
                   <li key={i}>{feat}</li>
+                ))}
+              </ul>
+            )} */}
+            <div className="w-full">
+            <div className="flex flex-wrap justify-center mb-2">
+              {technologies.split(',').map((tech, i) => (
+                <span 
+                  key={i} 
+                  className="bg-blue-500 text-xs px-2 py-1 rounded-full m-1"
+                >
+                  {tech.trim()}
+                </span>
+              ))}
+            </div>
+            {keyFeatures && keyFeatures.split(',').length > 0 && (
+              <ul className="list-disc list-inside text-sm">
+                {keyFeatures.split(',').map((feat, i) => (
+                  <li key={i}>{feat.trim()}</li>
                 ))}
               </ul>
             )}
@@ -118,10 +136,10 @@ const Projects = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(API_URL);
+        const res = await fetch(BASE_URL);
         if (!res.ok) throw new Error('Failed to fetch posts');
         const data = await res.json();
-        setPosts(data);
+        setPosts(data.data);
       } catch (err) {
         console.error(err);
       } finally {
@@ -143,14 +161,14 @@ const Projects = () => {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.map(post => (
           <ProjectCard
-            id={post.id}
-            key={post.id}
+            id={post.ID}
+            key={post.ID}
             title={post.title}
             description={post.description}
             date={post.date}
             technologies={post.technologies}
             keyFeatures={post.keyFeatures}
-            image={post.image}
+            image={post.imageUrl}
             githubUrl={post.githubUrl}
           />
         ))}

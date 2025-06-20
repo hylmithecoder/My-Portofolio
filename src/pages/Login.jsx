@@ -5,6 +5,8 @@ import { Helmet } from 'react-helmet-async';
 import Footer from '../components/Footer';
 import Chatbot from '../components/Chatbot';
 import { useNavigate } from 'react-router-dom';
+import bcrypt from "bcryptjs";
+// import crypto from "crypto";
 
 const notificationVariants = {
   hidden: { opacity: 0, y: -20 },
@@ -19,7 +21,21 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+
+        const fetchData = async () => {
+          try {
+            const res = await fetch(`https://ilmeee.com/get_project/users/index.php`);
+            // You can use the response if needed
+            console.log(res);
+          }
+          catch (err) {
+            console.error(err);
+          }
+        };
+        fetchData();
+
         const isLoggedIn = localStorage.getItem('isLoggedIn');
+
         // console.log("isLoggedIn:", isLoggedIn);
         if (isLoggedIn === 'true') {
             navigate('/admin');
@@ -31,45 +47,34 @@ const Login = () => {
         setTimeout(() => setNotification({ message: '', type: '' }), 3000);
     };
 
-    const sha256 = async (text) => {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(text);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setLoading(true);
+      try {
+          console.log(username);
+          // Ambil hash password tersimpan dari API berdasarkan username/email
+          const res = await fetch(`https://ilmeee.com/get_project/users/index.php?username=${username}`);
+          if (!res.ok) throw new Error('Gagal mengambil data user');
+          const user = await res.json();
+          console.log(user);
+
+          // Cocokkan password dengan bcrypt
+          const isMatch = await bcrypt.compare(password, user.data.password);
+          if (isMatch) {
+              showNotification('Login berhasil!', 'success');
+              localStorage.setItem('isLoggedIn', 'true');
+              localStorage.setItem('username', username);
+              setTimeout(() => { navigate('/admin') }, 1000);
+          } else {
+              showNotification('Email atau password salah', 'error');
+          }
+      } catch (err) {
+          console.error(err);
+          showNotification(err.message || 'Login gagal', 'error');
+      } finally {
+          setLoading(false);
+      }
     };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      // Ambil hash password tersimpan dari API berdasarkan username/email
-        const res = await fetch(`https://endpoint-myblog-production.up.railway.app/api/240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9/${username}`);
-        // console.log('Response:', res);
-        if (!res.ok) throw new Error('Gagal mengambil data user');
-        const user = await res.json();
-
-        // console.log('Hashed Password:', user.password);
-        // Hash input password
-        const inputHash = await sha256(password);
-        // console.log('Input Hash:', inputHash);
-        // console.log("Username:", username);
-        if (inputHash === user.password) {
-            showNotification('Login berhasil!', 'success');
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('username', username); // simpan jika kamu perlu datanya
-            // console.log("Current User:", username);
-            setTimeout(() => {navigate('/admin')}, 1000); // redirect ke halaman admin setelah 1 detik
-        } else {
-            showNotification('Email atau password salah', 'error');
-        }
-    } catch (err) {
-        console.error(err);
-        showNotification(err.message || 'Login gagal', 'error');
-    } finally {
-        setLoading(false);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 to-indigo-900 text-white relative overflow-hidden">
